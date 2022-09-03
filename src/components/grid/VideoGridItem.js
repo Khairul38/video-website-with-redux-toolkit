@@ -1,8 +1,20 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addAuthor, removeAuthor } from "../../features/filter/filterSlice";
 
 const VideoGridItem = ({ video = {} }) => {
+  const dispatch = useDispatch();
+  const { selectedAuthor } = useSelector((state) => state.filter);
   const { id, title, thumbnail, duration, avatar, author, views, date } = video;
+
+  const handleAuthorSelect = () => {
+    if (selectedAuthor !== "") {
+      dispatch(removeAuthor(author));
+    } else {
+      dispatch(addAuthor(author));
+    }
+  };
   return (
     <div className="col-span-12 sm:col-span-6 md:col-span-3 duration-300 hover:scale-[1.03]">
       <div className="w-full flex flex-col">
@@ -25,12 +37,12 @@ const VideoGridItem = ({ video = {} }) => {
             <Link to="/videos/1">
               <p className="text-slate-900 text-sm font-semibold">{title}</p>
             </Link>
-            <a
-              className="text-gray-400 text-xs mt-2 hover:text-gray-600"
-              href="#"
+            <p
+              onClick={handleAuthorSelect}
+              className="text-gray-400 text-xs mt-2 hover:text-gray-600 cursor-pointer"
             >
               {author}
-            </a>
+            </p>
             <p className="text-gray-400 text-xs mt-1">
               {views} views . {date}
             </p>

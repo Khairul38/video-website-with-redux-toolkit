@@ -9,11 +9,15 @@ const VideoGrid = () => {
   const { videos, isLoading, isError, error } = useSelector(
     (state) => state.videos
   );
-  const { selectedTags, search } = useSelector((state) => state.filter);
+  const { selectedTags, search, selectedAuthor, page } = useSelector(
+    (state) => state.filter
+  );
 
   useEffect(() => {
-    dispatch(fetchVideosAsync({ tags: selectedTags, search }));
-  }, [dispatch, selectedTags, search]);
+    dispatch(
+      fetchVideosAsync({ tags: selectedTags, search, selectedAuthor, page })
+    );
+  }, [dispatch, selectedTags, search, selectedAuthor, page]);
 
   // decide what to render
   let content;

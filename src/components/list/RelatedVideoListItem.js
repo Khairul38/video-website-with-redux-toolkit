@@ -1,8 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useMatch, useNavigate } from "react-router-dom";
+import { addAuthor, removeAuthor } from "../../features/filter/filterSlice";
 
 const RelatedVideoListItem = ({ relatedVideo }) => {
+  const dispatch = useDispatch();
   const { id, thumbnail, duration, title, author, views, date } = relatedVideo;
+  const { selectedAuthor } = useSelector((state) => state.filter);
+  const match = useMatch("/");
+  const navigate = useNavigate();
+
+  const handleAuthorSelect = () => {
+    if (!match) {
+      navigate("/");
+    }
+    if (selectedAuthor !== "") {
+      dispatch(removeAuthor());
+      dispatch(addAuthor(author));
+    } else {
+      dispatch(addAuthor(author));
+    }
+  };
   return (
     <div className="w-full flex flex-row gap-2 mb-4">
       <div className="relative w-[168px] h-[94px] flex-none duration-300 hover:scale-[1.03]">
@@ -22,9 +40,12 @@ const RelatedVideoListItem = ({ relatedVideo }) => {
         <Link to={`/videos/${id}`}>
           <p className="text-slate-900 text-sm font-semibold">{title}</p>
         </Link>
-        <a className="text-gray-400 text-xs mt-2 hover:text-gray-600" href="#">
+        <p
+          onClick={handleAuthorSelect}
+          className="text-gray-400 text-xs mt-2 hover:text-gray-600 cursor-pointer"
+        >
           {author}
-        </a>
+        </p>
         <p className="text-gray-400 text-xs mt-1">
           {views} views . {date}
         </p>

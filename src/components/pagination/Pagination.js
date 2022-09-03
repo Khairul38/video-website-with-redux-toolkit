@@ -1,17 +1,55 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { pageChanged } from "../../features/filter/filterSlice";
 
 const Pagination = () => {
+  const dispatch = useDispatch();
+  const { page } = useSelector((state) => state.filter);
+
+  const handlePageChanged = (page) => {
+    dispatch(pageChanged(page));
+  };
   return (
     <section className="pt-12">
       <div className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 justify-end">
-        <div className="bg-blue-600 text-white px-4 py-1 rounded-full">1</div>
-        <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
+        <div
+          onClick={() => handlePageChanged("1")}
+          className={`px-4 py-1 rounded-full cursor-pointer ${
+            page === "1"
+              ? "bg-blue-600 text-white"
+              : "bg-blue-100 text-blue-600"
+          }`}
+        >
+          1
+        </div>
+        <div
+          onClick={() => handlePageChanged("2")}
+          className={`px-4 py-1 rounded-full cursor-pointer ${
+            page === "2"
+              ? "bg-blue-600 text-white"
+              : "bg-blue-100 text-blue-600"
+          }`}
+        >
           2
         </div>
-        <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
+        <div
+          onClick={() => handlePageChanged("3")}
+          className={`px-4 py-1 rounded-full cursor-pointer ${
+            page === "3"
+              ? "bg-blue-600 text-white"
+              : "bg-blue-100 text-blue-600"
+          }`}
+        >
           3
         </div>
-        <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
+        <div
+          onClick={() => handlePageChanged("4")}
+          className={`px-4 py-1 rounded-full cursor-pointer ${
+            page === "4"
+              ? "bg-blue-600 text-white"
+              : "bg-blue-100 text-blue-600"
+          }`}
+        >
           4
         </div>
       </div>

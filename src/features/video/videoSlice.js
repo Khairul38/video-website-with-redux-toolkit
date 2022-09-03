@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getVideo } from "./videoAPI";
+import { getVideo, patchVideo } from "./videoAPI";
 
 const initialState = {
   video: {},
@@ -9,9 +9,16 @@ const initialState = {
 };
 
 export const fetchVideoAsync = createAsyncThunk(
-  "video/fetchVideos",
+  "video/fetchVideo",
   async (id) => {
     const video = await getVideo(id);
+    return video;
+  }
+);
+export const patchVideoAsync = createAsyncThunk(
+  "video/patchVideo",
+  async ({ id, value, condition }) => {
+    const video = await patchVideo(id, value, condition);
     return video;
   }
 );
@@ -35,6 +42,12 @@ const videoSlice = createSlice({
         state.isError = true;
         state.error = action.error?.message;
       });
+    // Like unlike builder
+    builder.addCase(patchVideoAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.video.likes = action.payload.likes;
+      state.video.unlikes = action.payload.unlikes;
+    });
   },
 });
 
