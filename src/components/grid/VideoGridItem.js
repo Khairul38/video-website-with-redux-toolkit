@@ -29,9 +29,9 @@ const VideoGridItem = ({ video = {} }) => {
         </div>
 
         <div className="flex flex-row mt-2 gap-2">
-          <a href="#" className="shrink-0">
+          <div className="shrink-0">
             <img src={avatar} className="rounded-full h-6 w-6" alt={author} />
-          </a>
+          </div>
 
           <div className="flex flex-col">
             <Link to="/videos/1">
